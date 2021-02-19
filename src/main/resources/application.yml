@@ -1,0 +1,20 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    username: root
+#    password: root
+    password: nhii@lcg_mysql@123
+    url: jdbc:mysql://123.57.225.189:7306/blog?serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  freemarker:
+    cache: false
+    charset: utf-8
+    suffix: .ftl
+mybatis:
+  mapper-locations: classpath:/mappers/*.xml
+logging:
+  level:
+    com.aiyi.blog: DEBUG
+  file:
+    name: logs/blog.log
