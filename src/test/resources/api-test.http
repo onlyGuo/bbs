@@ -1,0 +1,33 @@
+### 用户登录
+POST http://localhost:8081/api/v1/user/login
+Content-Type: application/json
+
+{
+    "phone": "admin",
+    "password": "123"
+}
+
+### 发送注册验证码
+POST http://localhost:8081/api/v1/vc/sms
+Content-Type: application/json
+
+{
+    "index": "123",
+    "code": "2zu74",
+    "phone": "17744416451",
+    "type": "Register"
+}
+
+### 图形验证码
+GET http://localhost:8081/api/v1/vc/img/{index}
+
+
+### 用户注册
+POST http://localhost:8081/api/v1/user/register
+Content-Type: application/json
+
+{
+    "phone": "17744416451",
+    "password": "123",
+    "smsCode": "3939"
+}

@@ -92,4 +92,12 @@ public class ExceptionHandlerAdvice {
     public ResultBean flowException(Exception e) {
         return ResultBean.error(e.getMessage()).setCode(HttpStatus.BAD_REQUEST.value());
     }
+
+    @ExceptionHandler(value = IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ResultBean illegalArgumentExceptionException(Exception e) {
+        return ResultBean.error(e.getMessage()).setCode(HttpStatus.BAD_REQUEST.value());
+    }
+
 }

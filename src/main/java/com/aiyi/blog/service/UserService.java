@@ -25,4 +25,18 @@ public interface UserService {
      */
     void logout(int userId);
 
+    /**
+     * 获得用户信息
+     * @param phone
+     *      用户账号
+     * @return
+     */
+    User getByPhone(String phone);
+
+    /**
+     * 用户注册
+     * @param user
+     *      用户信息
+     */
+    void register(User user);
 }

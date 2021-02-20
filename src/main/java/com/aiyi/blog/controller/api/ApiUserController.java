@@ -3,6 +3,7 @@ package com.aiyi.blog.controller.api;
 import com.aiyi.blog.assets.NoLogin;
 import com.aiyi.blog.entity.User;
 import com.aiyi.blog.service.UserService;
+import com.aiyi.blog.util.cache.CacheUtil;
 import com.aiyi.core.beans.ResultBean;
 import com.aiyi.core.util.thread.ThreadUtil;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,9 +35,24 @@ public class ApiUserController {
     @PostMapping("login")
     @NoLogin
     public ResultBean login(@RequestBody User user){
-        user.check("email", "password");
+        user.check("phone", "password");
         String token = userService.login(user);
+        System.out.println(CacheUtil.dump());
         return ResultBean.success().putResponseBody("token", token);
+    }
+
+    /**
+     * 用户注册
+     * @param user
+     *      用户信息
+     * @return
+     */
+    @PostMapping("register")
+    @NoLogin
+    public ResultBean register(@RequestBody User user){
+        user.check("phone", "password");
+        userService.register(user);
+        return ResultBean.success();
     }
 
     /**

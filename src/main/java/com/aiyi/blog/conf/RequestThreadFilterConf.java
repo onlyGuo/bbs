@@ -1,11 +1,15 @@
 package com.aiyi.blog.conf;
 
 import com.aiyi.blog.assets.NoLogin;
+import com.aiyi.blog.dao.UserDao;
+import com.aiyi.blog.dao.UserTokenDao;
 import com.aiyi.blog.entity.User;
+import com.aiyi.blog.entity.UserToken;
 import com.aiyi.blog.service.WebSiteService;
 import com.aiyi.blog.task.LogTask;
 import com.aiyi.blog.util.cache.CacheUtil;
 import com.aiyi.blog.util.cache.Key;
+import com.aiyi.blog.util.cache.UserTokenCacheUtil;
 import com.aiyi.core.SpringBootApplicationUtil;
 import com.aiyi.core.exception.AccessOAuthException;
 import com.aiyi.core.util.thread.ThreadUtil;
@@ -18,6 +22,7 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -38,14 +43,19 @@ public class RequestThreadFilterConf implements HandlerInterceptor {
     protected Logger logger = LoggerFactory.getLogger(RequestThreadFilterConf.class);
 
     @Resource
-    private WebSiteService webSiteService;
+    private UserTokenDao userTokenDao;
 
     @Resource
-    private LogTask logTask;
+    private UserDao userDao;
+
+    @PostConstruct
+    public void init(){
+        UserTokenCacheUtil.userTokenDao = userTokenDao;
+        UserTokenCacheUtil.userDao = userDao;
+    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-
         String reqHeader = request.getHeader("Access-Control-Request-Headers");
         response.setStatus(HttpStatus.OK.value());
         response.setHeader("Access-Control-Allow-Headers", reqHeader);
@@ -58,7 +68,7 @@ public class RequestThreadFilterConf implements HandlerInterceptor {
         // 这里是认证入口
         String token = getRequestToken(request);
         if (!StringUtils.isEmpty(token)){
-            loginUser = CacheUtil.get(Key.as(CommonAttr.CACHE.LOGIN_KEY, token), User.class);
+            loginUser = UserTokenCacheUtil.getUser(token);
         }
         if (handler instanceof HandlerMethod){
             HandlerMethod method = (HandlerMethod) handler;
@@ -91,7 +101,6 @@ public class RequestThreadFilterConf implements HandlerInterceptor {
      *          当前用户
      */
     private void initContext(HttpServletRequest request, User user, HttpServletResponse response){
-        logTask.log();
         request.setAttribute("ctx", request.getContextPath());
         request.setAttribute("location", request.getRequestURI());
         if (null != user){
@@ -100,11 +109,9 @@ public class RequestThreadFilterConf implements HandlerInterceptor {
             ThreadUtil.setUserId((long) user.getId());
         }
 
-        request.setAttribute("WEB_SITE", webSiteService.getWebSite());
-
 
         logger.info("requestURI:[{}], requestID:[{}], requestUser:[{}], custAddr:[{}]",
-                request.getRequestURI(), ThreadUtil.getRequestId(), null == user ? "annom": user.getEmail(), request.getRemoteAddr());
+                request.getRequestURI(), ThreadUtil.getRequestId(), null == user ? "annom": user.getPhone(), request.getRemoteAddr());
 
     }
 

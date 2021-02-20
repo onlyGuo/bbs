@@ -18,3 +18,7 @@ logging:
     com.aiyi.blog: DEBUG
   file:
     name: logs/bbs.log
+
+aliyun:
+  access-key-id: ${alikey}
+  access-secret: ${alisec}

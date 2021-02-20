@@ -2,24 +2,28 @@ package com.aiyi.blog.entity;
 
 import com.aiyi.core.annotation.po.ID;
 import com.aiyi.core.annotation.po.TableName;
+import com.aiyi.core.annotation.po.TempField;
 import com.aiyi.core.annotation.po.vali.Validation;
 import com.aiyi.core.annotation.po.vali.enums.ValidationType;
 import com.aiyi.core.beans.PO;
 import com.aiyi.core.util.MD5;
 
-@TableName(name = "blog_user")
+@TableName(name = "bbs_user")
 public class User extends PO {
 
     @ID
     private int id;
 
     @Validation(/*value = ValidationType.Email,*/ name = "用户名")
-    private String email;
+    private String phone;
 
     private String nicker;
 
     @Validation(name = "密码")
     private String password;
+
+    @TempField
+    private String smsCode;
 
     public int getId() {
         return id;
@@ -27,14 +31,6 @@ public class User extends PO {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getNicker() {
@@ -53,4 +49,19 @@ public class User extends PO {
         this.password = password;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getSmsCode() {
+        return smsCode;
+    }
+
+    public void setSmsCode(String smsCode) {
+        this.smsCode = smsCode;
+    }
 }

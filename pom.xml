@@ -57,7 +57,21 @@
         <dependency>
             <groupId>com.easymybatis.freamwork</groupId>
             <artifactId>spring-easymybatis-core</artifactId>
-            <version>0.2.4.RELEASE</version>
+            <version>0.3.1.RELEASE</version>
+        </dependency>
+
+        <!-- 图形验证码 -->
+        <dependency>
+            <groupId>com.github.whvcse</groupId>
+            <artifactId>easy-captcha</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+
+        <!-- 阿里云SDK -->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>4.5.3</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
