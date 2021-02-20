@@ -3,10 +3,11 @@ server:
 spring:
   datasource:
     username: root
-    password: guoshengkai373
+#    password: guoshengkai373
 #    password: nhii@lcg_mysql@123
-    url: jdbc:mysql://localhost:3306/bbs?serverTimezone=UTC
+    url: jdbc:mysql://192.168.3.102:3306/bbs?serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
+    password: root
   freemarker:
     cache: false
     charset: utf-8
