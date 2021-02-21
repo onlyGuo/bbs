@@ -12,6 +12,7 @@ import com.aiyi.core.beans.Method;
 import com.aiyi.core.exception.ValidationException;
 import com.aiyi.core.sql.where.C;
 import com.aiyi.core.util.MD5;
+import com.aiyi.core.util.thread.ThreadUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -82,6 +83,21 @@ public class UserServiceImpl implements UserService {
 
         // 失效验证码
         CacheUtil.expire(Key.as(CommonAttr.CACHE.VALIDATION_CODE, "SMS", "Register", user.getPhone()));
+    }
+
+    @Override
+    public void updateMyInfo(User user) {
+        User my = ThreadUtil.getUserEntity();
+        if (!StringUtils.isEmpty(user.getNicker())){
+            my.setNicker(user.getNicker());
+        }
+        if (!StringUtils.isEmpty(user.getSign())){
+            my.setSign(user.getSign());
+        }
+        if (StringUtils.isEmpty(user.getHeadImg())){
+            my.setHeadImg(user.getHeadImg());
+        }
+        userDao.update(my);
     }
 
 

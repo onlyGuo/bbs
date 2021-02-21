@@ -6,10 +6,7 @@ import com.aiyi.blog.service.UserService;
 import com.aiyi.blog.util.cache.CacheUtil;
 import com.aiyi.core.beans.ResultBean;
 import com.aiyi.core.util.thread.ThreadUtil;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -66,5 +63,15 @@ public class ApiUserController {
     }
 
 
-
+    /**
+     * 更新我的信息
+     * @param user
+     *      用户信息
+     * @return
+     */
+    @PutMapping("info")
+    public ResultBean updateMyInfo(@RequestBody User user){
+        userService.updateMyInfo(user);
+        return ResultBean.success();
+    }
 }
