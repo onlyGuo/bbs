@@ -23,3 +23,6 @@ logging:
 aliyun:
   access-key-id: ${alikey}
   access-secret: ${alisec}
+  oss:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    bucket-name: bbs-app-gsk

@@ -4,13 +4,7 @@ import com.aiyi.blog.assets.NoLogin;
 import com.aiyi.blog.dao.UserDao;
 import com.aiyi.blog.dao.UserTokenDao;
 import com.aiyi.blog.entity.User;
-import com.aiyi.blog.entity.UserToken;
-import com.aiyi.blog.service.WebSiteService;
-import com.aiyi.blog.task.LogTask;
-import com.aiyi.blog.util.cache.CacheUtil;
-import com.aiyi.blog.util.cache.Key;
 import com.aiyi.blog.util.cache.UserTokenCacheUtil;
-import com.aiyi.core.SpringBootApplicationUtil;
 import com.aiyi.core.exception.AccessOAuthException;
 import com.aiyi.core.util.thread.ThreadUtil;
 import org.slf4j.Logger;
@@ -18,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -27,7 +20,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.UUID;
 
 /**
