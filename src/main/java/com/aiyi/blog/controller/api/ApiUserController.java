@@ -75,7 +75,7 @@ public class ApiUserController {
         if (!((User)ThreadUtil.getUserEntity()).getPassword().equals(MD5.getMd5(user.getPassword()))){
             throw new ValidationException("旧密码不正确");
         }
-        userService.updateMyPassword(user.getNewPassowrd()));
+        userService.updateMyPassword(user.getNewPassowrd());
         return ResultBean.success();
     }
 
