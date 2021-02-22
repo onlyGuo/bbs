@@ -1,9 +1,9 @@
 package com.aiyi.blog.dao;
 
-import com.aiyi.blog.entity.Log;
+import com.aiyi.blog.entity.Post;
 import com.aiyi.core.dao.impl.BaseDaoImpl;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class LogDao extends BaseDaoImpl<Log, Long> {
+public class PostDao extends BaseDaoImpl<Post, Long> {
 }

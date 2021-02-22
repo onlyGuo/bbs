@@ -1,5 +1,6 @@
 package com.aiyi.blog.entity;
 
+import com.aiyi.core.annotation.po.FieldName;
 import com.aiyi.core.annotation.po.ID;
 import com.aiyi.core.annotation.po.TableName;
 import com.aiyi.core.annotation.po.TempField;
@@ -27,6 +28,13 @@ public class User extends PO {
 
     @TempField
     private String newPassowrd;
+    /**
+     * 签名
+     */
+    private String sign;
+
+    @FieldName(name = "head_img")
+    private String headImg;
 
     public int getId() {
         return id;
@@ -74,5 +82,21 @@ public class User extends PO {
 
     public void setNewPassowrd(String newPassowrd) {
         this.newPassowrd = newPassowrd;
+    }
+
+    public String getSign() {
+        return sign;
+    }
+
+    public void setSign(String sign) {
+        this.sign = sign;
+    }
+
+    public String getHeadImg() {
+        return headImg;
+    }
+
+    public void setHeadImg(String headImg) {
+        this.headImg = headImg;
     }
 }

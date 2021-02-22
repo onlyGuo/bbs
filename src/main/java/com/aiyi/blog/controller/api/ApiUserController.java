@@ -80,5 +80,15 @@ public class ApiUserController {
     }
 
 
-
+    /**
+     * 更新我的信息
+     * @param user
+     *      用户信息
+     * @return
+     */
+    @PutMapping("info")
+    public ResultBean updateMyInfo(@RequestBody User user){
+        userService.updateMyInfo(user);
+        return ResultBean.success();
+    }
 }

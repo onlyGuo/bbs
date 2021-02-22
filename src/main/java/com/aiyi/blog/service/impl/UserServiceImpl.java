@@ -91,5 +91,20 @@ public class UserServiceImpl implements UserService {
         user.setPassword(MD5.getMd5(newPassowrd));
     }
 
+    @Override
+    public void updateMyInfo(User user) {
+        User my = ThreadUtil.getUserEntity();
+        if (!StringUtils.isEmpty(user.getNicker())){
+            my.setNicker(user.getNicker());
+        }
+        if (!StringUtils.isEmpty(user.getSign())){
+            my.setSign(user.getSign());
+        }
+        if (StringUtils.isEmpty(user.getHeadImg())){
+            my.setHeadImg(user.getHeadImg());
+        }
+        userDao.update(my);
+    }
+
 
 }

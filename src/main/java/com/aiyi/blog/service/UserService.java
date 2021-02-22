@@ -45,4 +45,10 @@ public interface UserService {
      * @param newPassowrd
      */
     void updateMyPassword(String newPassowrd);
+
+    /**
+     * 更新我的用户信息
+     * @param user
+     */
+    void updateMyInfo(User user);
 }
