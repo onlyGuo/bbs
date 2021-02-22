@@ -25,6 +25,9 @@ public class User extends PO {
     @TempField
     private String smsCode;
 
+    @TempField
+    private String newPassowrd;
+
     public int getId() {
         return id;
     }
@@ -63,5 +66,13 @@ public class User extends PO {
 
     public void setSmsCode(String smsCode) {
         this.smsCode = smsCode;
+    }
+
+    public String getNewPassowrd() {
+        return newPassowrd;
+    }
+
+    public void setNewPassowrd(String newPassowrd) {
+        this.newPassowrd = newPassowrd;
     }
 }

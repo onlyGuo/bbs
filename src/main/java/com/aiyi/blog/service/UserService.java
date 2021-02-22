@@ -39,4 +39,10 @@ public interface UserService {
      *      用户信息
      */
     void register(User user);
+
+    /**
+     * 修改用户密码
+     * @param newPassowrd
+     */
+    void updateMyPassword(String newPassowrd);
 }

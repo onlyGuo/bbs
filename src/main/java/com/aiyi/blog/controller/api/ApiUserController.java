@@ -5,11 +5,10 @@ import com.aiyi.blog.entity.User;
 import com.aiyi.blog.service.UserService;
 import com.aiyi.blog.util.cache.CacheUtil;
 import com.aiyi.core.beans.ResultBean;
+import com.aiyi.core.exception.ValidationException;
+import com.aiyi.core.util.MD5;
 import com.aiyi.core.util.thread.ThreadUtil;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -62,6 +61,21 @@ public class ApiUserController {
     @PostMapping("logout")
     public ResultBean logout(){
         userService.logout(ThreadUtil.getUserId().intValue());
+        return ResultBean.success();
+    }
+
+    /**
+     * 修改用户密码
+     * @param user
+     *      用户密码
+     * @return
+     */
+    @PutMapping("password")
+    public ResultBean updateMyPassword(@RequestBody User user){
+        if (!((User)ThreadUtil.getUserEntity()).getPassword().equals(MD5.getMd5(user.getPassword()))){
+            throw new ValidationException("旧密码不正确");
+        }
+        userService.updateMyPassword(user.getNewPassowrd()));
         return ResultBean.success();
     }
 
