@@ -1,8 +1,6 @@
 package com.aiyi.blog.entity;
 
-import com.aiyi.core.annotation.po.FieldName;
-import com.aiyi.core.annotation.po.ID;
-import com.aiyi.core.annotation.po.TableName;
+import com.aiyi.core.annotation.po.*;
 import com.aiyi.core.beans.PO;
 
 import java.util.Date;
@@ -48,7 +46,8 @@ public class Post extends PO {
     /**
      * 图片列表
      */
-    private Map<String, List<String>> imgs;
+    @JsonField
+    private List<String> imgs;
 
     /**
      * 发布时间
@@ -83,6 +82,12 @@ public class Post extends PO {
      */
     @FieldName(name = "city_name")
     private String cityName;
+
+    /**
+     * 我与这个帖子发布地点的相对距离（米）
+     */
+    @TempField
+    private double distance;
 
     public long getId() {
         return id;
@@ -140,11 +145,11 @@ public class Post extends PO {
         this.content = content;
     }
 
-    public Map<String, List<String>> getImgs() {
+    public List<String> getImgs() {
         return imgs;
     }
 
-    public void setImgs(Map<String, List<String>> imgs) {
+    public void setImgs(List<String> imgs) {
         this.imgs = imgs;
     }
 
@@ -194,5 +199,13 @@ public class Post extends PO {
 
     public void setCityName(String cityName) {
         this.cityName = cityName;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 }

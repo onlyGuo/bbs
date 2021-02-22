@@ -98,7 +98,7 @@ public class UserTokenCacheUtil {
         }
         User user = CacheUtil.get(Key.as(CommonAttr.CACHE.LOGIN_KEY, token), User.class);
         if (null == user){
-            UserToken dbUserToken = userTokenDao.get(Method.where(UserToken::getUserId, C.EQ, user.getId()));
+            UserToken dbUserToken = userTokenDao.get(Method.where(UserToken::getToken, C.EQ, token));
             if (null != dbUserToken){
                 user = userDao.get(dbUserToken.getUserId());
             }

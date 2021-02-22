@@ -3,18 +3,18 @@ package com.aiyi.blog.controller.api;
 import com.aiyi.blog.entity.Post;
 import com.aiyi.blog.service.PostService;
 import com.aiyi.core.beans.ResultBean;
+import com.aiyi.core.util.thread.ThreadUtil;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 帖子相关
  */
-@Controller("api/v1/post")
+@RestController
+@RequestMapping("api/v1/post")
 public class ApiPostController {
 
     @Resource
@@ -36,7 +36,8 @@ public class ApiPostController {
      */
     @GetMapping
     public ResultBean listMy(int page, int pageSize){
-        return ResultBean.success();
+        return ResultBean.success().setResponseBody(
+                postService.list(Integer.parseInt(ThreadUtil.getUserId().toString()), page, pageSize));
     }
 
 
@@ -47,7 +48,8 @@ public class ApiPostController {
      */
     @GetMapping("{userId}/list")
     public ResultBean list(@PathVariable int userId, int page, int pageSize){
-        return ResultBean.success();
+        return ResultBean.success().setResponseBody(
+                postService.list(userId, page, pageSize));
     }
 
     /**
@@ -66,7 +68,8 @@ public class ApiPostController {
      */
     @GetMapping("list")
     public ResultBean list(int page, int pageSize, double lon, double lat, String cityName){
-        return ResultBean.success();
+        return ResultBean.success().setResponseBody(
+                postService.list(page, pageSize, lon, lat, cityName));
     }
 
 }
