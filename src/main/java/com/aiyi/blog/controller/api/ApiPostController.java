@@ -72,4 +72,15 @@ public class ApiPostController {
                 postService.list(page, pageSize, lon, lat, cityName));
     }
 
+    /**
+     * 删除我自己的一个帖子
+     * @param post
+     *      要删除的帖子信息
+     * @return
+     */
+    @DeleteMapping
+    public ResultBean deleteMy(@RequestBody Post post){
+        postService.deleteMy(post);
+        return ResultBean.success();
+    }
 }

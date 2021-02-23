@@ -45,4 +45,11 @@ public interface PostService {
      * @return
      */
     ResultPage<Post> list(int page, int pageSize, double lon, double lat, String cityName);
+
+    /**
+     * 删除一个我自己的帖子
+     * @param post
+     *      帖子信息
+     */
+    void deleteMy(Post post);
 }

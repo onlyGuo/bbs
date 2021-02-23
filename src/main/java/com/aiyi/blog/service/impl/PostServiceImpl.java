@@ -50,12 +50,13 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public ResultPage<Post> list(int userId, int page, int pageSize) {
-        return postDao.list(Method.where(Post::getUserId, C.EQ, userId), page, pageSize);
+        return postDao.list(Method.where(Post::getUserId, C.EQ, userId).and(Post::isDeleted, C.EQ, false),
+                page, pageSize);
     }
 
     @Override
     public ResultPage<Post> list(int page, int pageSize, double lon, double lat, String cityName) {
-        WherePrams where = Method.createDefault();
+        WherePrams where = Method.where(Post::isDeleted, C.EQ, false);
         if (!StringUtils.isEmpty(cityName)){
             where.orderBy("field(city_name, '" + cityName + "')DESC, create_time DESC");
         }else{
@@ -72,5 +73,15 @@ public class PostServiceImpl implements PostService {
             }
         }
         return list;
+    }
+
+    @Override
+    public void deleteMy(Post post) {
+        Post dbPost = postDao.get(Method.where(Post::getId, C.EQ, post)
+                .and(Post::getUserId, C.EQ, ThreadUtil.getUserId()).and(Post::isDeleted, C.EQ, false));
+        if (null != dbPost){
+            dbPost.setDeleted(true);
+            postDao.update(dbPost);
+        }
     }
 }

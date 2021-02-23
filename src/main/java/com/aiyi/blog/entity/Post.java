@@ -78,6 +78,11 @@ public class Post extends PO {
     private double lat;
 
     /**
+     * 是否被删除
+     */
+    private boolean deleted;
+
+    /**
      * 城市名称
      */
     @FieldName(name = "city_name")
@@ -207,5 +212,13 @@ public class Post extends PO {
 
     public void setDistance(double distance) {
         this.distance = distance;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }
