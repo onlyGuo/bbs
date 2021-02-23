@@ -11,6 +11,7 @@ import com.aiyi.core.util.thread.ThreadUtil;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @Author: 郭胜凯
@@ -90,5 +91,14 @@ public class ApiUserController {
     public ResultBean updateMyInfo(@RequestBody User user){
         userService.updateMyInfo(user);
         return ResultBean.success();
+    }
+
+    public static void main(String[] args) {
+//        byte[] bytes = "你".getBytes(StandardCharsets.UTF_8);
+//        for (byte b: bytes){
+//            System.out.println(b + "---" + Integer.toBinaryString(b & 0XFFFF));
+//        }
+//        System.out.println(8 + "---" + Integer.toBinaryString(8 & 0XFFFF));
+        System.out.println(Integer.parseInt("1111", 8));
     }
 }
