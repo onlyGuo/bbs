@@ -52,4 +52,13 @@ public interface PostService {
      *      帖子信息
      */
     void deleteMy(Post post);
+
+    /**
+     * 帖子点赞/取消赞
+     * @param id
+     *      帖子ID
+     * @return
+     *      0 = 已取消， 1 = 已点赞
+     */
+    int love(long id);
 }

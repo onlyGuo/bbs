@@ -83,4 +83,15 @@ public class ApiPostController {
         postService.deleteMy(post);
         return ResultBean.success();
     }
+
+    /**
+     * 帖子点赞/取消赞
+     * @param id
+     *      帖子ID
+     * @return
+     */
+    @PostMapping("{id}/love")
+    public ResultBean love(@PathVariable long id){
+        return ResultBean.success().putResponseBody("status", postService.love(id));
+    }
 }

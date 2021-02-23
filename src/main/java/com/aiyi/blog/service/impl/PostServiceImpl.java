@@ -1,10 +1,14 @@
 package com.aiyi.blog.service.impl;
 
 import com.aiyi.blog.dao.PostDao;
+import com.aiyi.blog.dao.PostLoveDao;
 import com.aiyi.blog.entity.Post;
+import com.aiyi.blog.entity.PostLove;
 import com.aiyi.blog.entity.User;
 import com.aiyi.blog.service.PostService;
 import com.aiyi.blog.util.MapUtils;
+import com.aiyi.blog.util.cache.CacheUtil;
+import com.aiyi.blog.util.cache.Key;
 import com.aiyi.core.beans.Method;
 import com.aiyi.core.beans.ResultPage;
 import com.aiyi.core.beans.Sort;
@@ -28,6 +32,9 @@ public class PostServiceImpl implements PostService {
 
     @Resource
     private PostDao postDao;
+
+    @Resource
+    private PostLoveDao postLoveDao;
 
     @Override
     public Post post(Post post) {
@@ -83,5 +90,26 @@ public class PostServiceImpl implements PostService {
             dbPost.setDeleted(true);
             postDao.update(dbPost);
         }
+    }
+
+    @Override
+    public int love(long id) {
+        int userId = Integer.parseInt(ThreadUtil.getUserId().toString());
+        return CacheUtil.lock(Key.as("POST.LOVE", String.valueOf(id), ThreadUtil.getUserId().toString()), () -> {
+            PostLove postLove = postLoveDao.get(Method.where(PostLove::getPostId, C.EQ, id)
+                    .and(PostLove::getUserId, C.EQ, ThreadUtil.getUserId()));
+            if (null == postLove){
+                // 没赞就点赞
+                postLove = new PostLove();
+                postLove.setPostId(id);
+                postLove.setUserId(userId);
+                postLoveDao.add(postLove);
+                return 1;
+            }else{
+                // 有赞就取消
+                postLoveDao.del(postLove.getId());
+                return 0;
+            }
+        });
     }
 }
