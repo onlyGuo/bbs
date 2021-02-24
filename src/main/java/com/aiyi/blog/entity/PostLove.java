@@ -20,6 +20,8 @@ public class PostLove extends PO {
     @FieldName(name = "user_id")
     private int userId;
 
+    private boolean love = true;
+
     public long getId() {
         return id;
     }
@@ -42,5 +44,13 @@ public class PostLove extends PO {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public boolean isLove() {
+        return love;
+    }
+
+    public void setLove(boolean love) {
+        this.love = love;
     }
 }

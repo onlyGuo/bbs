@@ -9,10 +9,7 @@ import com.aiyi.blog.service.PostService;
 import com.aiyi.blog.util.MapUtils;
 import com.aiyi.blog.util.cache.CacheUtil;
 import com.aiyi.blog.util.cache.Key;
-import com.aiyi.core.beans.Method;
-import com.aiyi.core.beans.ResultPage;
-import com.aiyi.core.beans.Sort;
-import com.aiyi.core.beans.WherePrams;
+import com.aiyi.core.beans.*;
 import com.aiyi.core.enums.OrderBy;
 import com.aiyi.core.exception.ValidationException;
 import com.aiyi.core.sql.where.C;
@@ -58,6 +55,8 @@ public class PostServiceImpl implements PostService {
     @Override
     public ResultPage<Post> list(int userId, int page, int pageSize) {
         return postDao.list(Method.where(Post::getUserId, C.EQ, userId).and(Post::isDeleted, C.EQ, false),
+                LeftJoin.join(PostLove.class, Method.where(PostLove::getPostId, C.EQ, Post::getId)
+                        .and(PostLove::getUserId, C.EQ, ThreadUtil.getUserId()), PostLove::isLove),
                 page, pageSize);
     }
 
@@ -69,7 +68,9 @@ public class PostServiceImpl implements PostService {
         }else{
             where.orderBy(Sort.of(Post::getCreateTime, OrderBy.DESC));
         }
-        ResultPage<Post> list = postDao.list(where, page, pageSize);
+        ResultPage<Post> list = postDao.list(where,
+                LeftJoin.join(PostLove.class, Method.where(PostLove::getPostId, C.EQ, Post::getId)
+                        .and(PostLove::getUserId, C.EQ, ThreadUtil.getUserId()), PostLove::isLove), page, pageSize);
 
         if (lon > 0 && lat > 0){
             // 计算距离
@@ -104,10 +105,12 @@ public class PostServiceImpl implements PostService {
                 postLove.setPostId(id);
                 postLove.setUserId(userId);
                 postLoveDao.add(postLove);
+                postDao.execute("UPDATE " + postDao.tableName() + " SET love_count = love_count + 1 WHERE id = ?", id);
                 return 1;
             }else{
                 // 有赞就取消
                 postLoveDao.del(postLove.getId());
+                postDao.execute("UPDATE " + postDao.tableName() + " SET love_count = love_count - 1 WHERE id = ?", id);
                 return 0;
             }
         });

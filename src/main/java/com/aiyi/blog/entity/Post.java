@@ -94,6 +94,12 @@ public class Post extends PO {
     @TempField
     private double distance;
 
+    /**
+     * 是否赞过它
+     */
+    @TempField
+    private boolean love;
+
     public long getId() {
         return id;
     }
@@ -220,5 +226,13 @@ public class Post extends PO {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public boolean isLove() {
+        return love;
+    }
+
+    public void setLove(boolean love) {
+        this.love = love;
     }
 }
