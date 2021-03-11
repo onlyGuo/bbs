@@ -67,17 +67,17 @@ public class ExceptionHandlerAdvice {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
     public ResultBean accessOAuthException(Exception e, HttpServletRequest request, HttpServletResponse response) {
-        String header = request.getHeader("Content-Type");
-        if (header != null && header.toLowerCase().contains("application/json")){
+//        String header = request.getHeader("Content-Type");
+//        if (header != null && header.toLowerCase().contains("application/json")){
             return ResultBean.error("没有权限.").setCode(HttpStatus.UNAUTHORIZED.value());
-        }else{
-            try {
-                response.sendRedirect(request.getContextPath() + "/");
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            return null;
-        }
+//        }else{
+//            try {
+//                response.sendRedirect(request.getContextPath() + "/");
+//            } catch (IOException ex) {
+//                ex.printStackTrace();
+//            }
+//            return null;
+//        }
     }
 
     /**

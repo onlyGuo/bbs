@@ -37,7 +37,6 @@ public class ApiUserController {
     public ResultBean login(@RequestBody User user){
         user.check("phone", "password");
         String token = userService.login(user);
-        System.out.println(CacheUtil.dump());
         return ResultBean.success().putResponseBody("token", token);
     }
 

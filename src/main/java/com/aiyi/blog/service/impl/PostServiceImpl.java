@@ -61,12 +61,18 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public ResultPage<Post> list(int page, int pageSize, double lon, double lat, String cityName) {
+    public ResultPage<Post> list(int page, int pageSize, double lon, double lat, String cityName, boolean top, int tagId) {
         WherePrams where = Method.where(Post::isDeleted, C.EQ, false);
         if (!StringUtils.isEmpty(cityName)){
             where.orderBy("field(city_name, '" + cityName + "')DESC, create_time DESC");
         }else{
             where.orderBy(Sort.of(Post::getCreateTime, OrderBy.DESC));
+        }
+        if (top){
+            where.and(Post::isTop, C.EQ, true);
+        }
+        if (tagId > 0){
+            where.and(Post::getTags, C.LIKE, "\"" + tagId + "\"");
         }
         ResultPage<Post> list = postDao.list(where,
                 LeftJoin.join(PostLove.class, Method.where(PostLove::getPostId, C.EQ, Post::getId)

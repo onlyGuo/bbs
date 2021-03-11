@@ -1,6 +1,5 @@
 package com.aiyi.blog.util.cache;
 
-import com.aiyi.blog.test.Test;
 import com.aiyi.core.exception.ServiceInvokeException;
 import com.aiyi.core.exception.ValidationException;
 import com.alibaba.fastjson.JSON;

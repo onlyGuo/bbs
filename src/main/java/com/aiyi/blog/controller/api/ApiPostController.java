@@ -1,8 +1,13 @@
 package com.aiyi.blog.controller.api;
 
+import com.aiyi.blog.dao.TagDao;
 import com.aiyi.blog.entity.Post;
+import com.aiyi.blog.entity.Tag;
+import com.aiyi.blog.entity.User;
 import com.aiyi.blog.service.PostService;
+import com.aiyi.core.beans.Method;
 import com.aiyi.core.beans.ResultBean;
+import com.aiyi.core.sql.where.C;
 import com.aiyi.core.util.thread.ThreadUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +24,9 @@ public class ApiPostController {
 
     @Resource
     private PostService postService;
+
+    @Resource
+    private TagDao tagDao;
 
     /**
      * 发表帖子
@@ -40,6 +48,21 @@ public class ApiPostController {
                 postService.list(Integer.parseInt(ThreadUtil.getUserId().toString()), page, pageSize));
     }
 
+    /**
+     * 列出标签列表
+     * @return
+     */
+    @GetMapping("tags")
+    public ResultBean tagList(Boolean edit){
+        List<Tag> list = null;
+        if (edit != null && edit){
+            User user = ThreadUtil.getUserEntity();
+            list = tagDao.list(Method.where(Tag::getRule, C.XE, user.getRule()));
+        }else{
+            list = tagDao.list(Method.createDefault());
+        }
+        return ResultBean.success().setResponseBody(list);
+    }
 
     /**
      * 列出某个用户的帖子
@@ -67,9 +90,9 @@ public class ApiPostController {
      * @return
      */
     @GetMapping("list")
-    public ResultBean list(int page, int pageSize, double lon, double lat, String cityName){
+    public ResultBean list(int page, int pageSize, double lon, double lat, String cityName, Boolean top, Integer tagId){
         return ResultBean.success().setResponseBody(
-                postService.list(page, pageSize, lon, lat, cityName));
+                postService.list(page, pageSize, lon, lat, cityName, null != top && top, null == tagId ? 0 : tagId));
     }
 
     /**

@@ -44,7 +44,7 @@ public interface PostService {
      *      我所在的城市名称
      * @return
      */
-    ResultPage<Post> list(int page, int pageSize, double lon, double lat, String cityName);
+    ResultPage<Post> list(int page, int pageSize, double lon, double lat, String cityName, boolean top, int tagId);
 
     /**
      * 删除一个我自己的帖子

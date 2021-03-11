@@ -36,6 +36,11 @@ public class User extends PO {
     @FieldName(name = "head_img")
     private String headImg;
 
+    /**
+     * 角色
+     */
+    private int rule;
+
     public int getId() {
         return id;
     }
@@ -98,5 +103,13 @@ public class User extends PO {
 
     public void setHeadImg(String headImg) {
         this.headImg = headImg;
+    }
+
+    public int getRule() {
+        return rule;
+    }
+
+    public void setRule(int rule) {
+        this.rule = rule;
     }
 }

@@ -89,6 +89,17 @@ public class Post extends PO {
     private String cityName;
 
     /**
+     * 是否置顶
+     */
+    private boolean top;
+
+    /**
+     * 标签
+     */
+    @JsonField
+    private List<String> tags;
+
+    /**
      * 我与这个帖子发布地点的相对距离（米）
      */
     @TempField
@@ -234,5 +245,21 @@ public class Post extends PO {
 
     public void setLove(boolean love) {
         this.love = love;
+    }
+
+    public boolean isTop() {
+        return top;
+    }
+
+    public void setTop(boolean top) {
+        this.top = top;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 }
