@@ -92,12 +92,13 @@ public class ApiUserController {
         return ResultBean.success();
     }
 
-    public static void main(String[] args) {
-//        byte[] bytes = "你".getBytes(StandardCharsets.UTF_8);
-//        for (byte b: bytes){
-//            System.out.println(b + "---" + Integer.toBinaryString(b & 0XFFFF));
-//        }
-//        System.out.println(8 + "---" + Integer.toBinaryString(8 & 0XFFFF));
-        System.out.println(Integer.parseInt("1111", 8));
+    /**
+     * 获得我的信息
+     * @return
+     */
+    @GetMapping("info")
+    public ResultBean myInfo(){
+        return ResultBean.success().setResponseBody(ThreadUtil.getUserEntity());
     }
+
 }
