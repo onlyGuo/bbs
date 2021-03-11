@@ -100,10 +100,11 @@ public class UserServiceImpl implements UserService {
         if (!StringUtils.isEmpty(user.getSign())){
             my.setSign(user.getSign());
         }
-        if (StringUtils.isEmpty(user.getHeadImg())){
+        if (!StringUtils.isEmpty(user.getHeadImg())){
             my.setHeadImg(user.getHeadImg());
         }
         userDao.update(my);
+        UserTokenCacheUtil.updateCacheUser(my);
     }
 
 
