@@ -54,7 +54,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public ResultPage<Post> list(int userId, int page, int pageSize) {
-        return postDao.list(Method.where(Post::getUserId, C.EQ, userId).and(Post::isDeleted, C.EQ, false),
+        return postDao.list(Method.where(Post::getUserId, C.EQ, userId).and(Post::isDeleted, C.EQ, false)
+                        .orderBy(Sort.of(Post::getId, OrderBy.DESC)),
                 LeftJoin.join(PostLove.class, Method.where(PostLove::getPostId, C.EQ, Post::getId)
                         .and(PostLove::getUserId, C.EQ, ThreadUtil.getUserId()), PostLove::isLove),
                 page, pageSize);
