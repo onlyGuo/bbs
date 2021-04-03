@@ -7,6 +7,7 @@ import com.aiyi.blog.entity.Post;
 import com.aiyi.blog.entity.PostLove;
 import com.aiyi.blog.entity.PostMessage;
 import com.aiyi.blog.entity.User;
+import com.aiyi.blog.entity.dto.PostNoReadMessage;
 import com.aiyi.blog.service.PostMessageService;
 import com.aiyi.blog.service.PostService;
 import com.aiyi.blog.util.MapUtils;
@@ -23,6 +24,7 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 帖子相关业务实现
@@ -131,6 +133,13 @@ public class PostServiceImpl implements PostService {
                     message.setUserNicker(user.getNicker());
                     message.setType(CommonAttr.POST_MESSAGE_TYPE.LOVE);
                     postMessageService.sendMessage(message);
+                    Key key = Key.as(CommonAttr.CACHE.POST_NOREAD_MESSAGE, "" + userId);
+                    PostNoReadMessage cacheMessage = CacheUtil.get(key, PostNoReadMessage.class);
+                    if (null != cacheMessage){
+                        cacheMessage.setLove(cacheMessage.getLove() + 1);
+                        CacheUtil.put(key, cacheMessage, TimeUnit.HOURS, 1);
+                    }
+
                 }
 
                 return 1;

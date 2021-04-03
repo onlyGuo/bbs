@@ -32,6 +32,11 @@ public interface CommonAttr {
          * 验证码
          */
         String VALIDATION_CODE = "VALI_CODE";
+
+        /**
+         * 消息缓存
+         */
+        String POST_NOREAD_MESSAGE = "POST_NOREAD_MESSAGE";
     }
 
     /**
