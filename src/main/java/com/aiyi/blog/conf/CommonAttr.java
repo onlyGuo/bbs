@@ -48,4 +48,21 @@ public interface CommonAttr {
         int OFF = 0;
     }
 
+    /**
+     * 帖子消息类型
+     */
+    interface POST_MESSAGE_TYPE{
+        /**
+         * 艾特我的
+         */
+        int AT = 0;
+        /**
+         * 评论我的
+         */
+        int COMMENT = 1;
+        /**
+         * 点赞我的
+         */
+        int LOVE = 2;
+    }
 }

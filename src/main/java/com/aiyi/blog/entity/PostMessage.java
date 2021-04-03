@@ -3,12 +3,13 @@ package com.aiyi.blog.entity;
 import com.aiyi.core.annotation.po.FieldName;
 import com.aiyi.core.annotation.po.ID;
 import com.aiyi.core.annotation.po.TableName;
+import com.aiyi.core.beans.PO;
 
 /**
  * 帖子相关消息通知表
  */
 @TableName(name = "bbs_post_message")
-public class PostMessage {
+public class PostMessage extends PO {
 
     @ID
     private long id;
@@ -51,6 +52,7 @@ public class PostMessage {
     /**
      * 作者是否已读
      */
+    @FieldName(name = "`read`")
     private boolean read;
 
     /**

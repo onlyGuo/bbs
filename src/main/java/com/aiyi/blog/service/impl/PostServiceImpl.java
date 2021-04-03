@@ -1,10 +1,13 @@
 package com.aiyi.blog.service.impl;
 
+import com.aiyi.blog.conf.CommonAttr;
 import com.aiyi.blog.dao.PostDao;
 import com.aiyi.blog.dao.PostLoveDao;
 import com.aiyi.blog.entity.Post;
 import com.aiyi.blog.entity.PostLove;
+import com.aiyi.blog.entity.PostMessage;
 import com.aiyi.blog.entity.User;
+import com.aiyi.blog.service.PostMessageService;
 import com.aiyi.blog.service.PostService;
 import com.aiyi.blog.util.MapUtils;
 import com.aiyi.blog.util.cache.CacheUtil;
@@ -32,6 +35,9 @@ public class PostServiceImpl implements PostService {
 
     @Resource
     private PostLoveDao postLoveDao;
+
+    @Resource
+    private PostMessageService postMessageService;
 
     @Override
     public Post post(Post post) {
@@ -103,9 +109,10 @@ public class PostServiceImpl implements PostService {
     @Override
     public int love(long id) {
         int userId = Integer.parseInt(ThreadUtil.getUserId().toString());
+        User user = ThreadUtil.getUserEntity();
         return CacheUtil.lock(Key.as("POST.LOVE", String.valueOf(id), ThreadUtil.getUserId().toString()), () -> {
             PostLove postLove = postLoveDao.get(Method.where(PostLove::getPostId, C.EQ, id)
-                    .and(PostLove::getUserId, C.EQ, ThreadUtil.getUserId()));
+                    .and(PostLove::getUserId, C.EQ, userId));
             if (null == postLove){
                 // 没赞就点赞
                 postLove = new PostLove();
@@ -113,6 +120,19 @@ public class PostServiceImpl implements PostService {
                 postLove.setUserId(userId);
                 postLoveDao.add(postLove);
                 postDao.execute("UPDATE " + postDao.tableName() + " SET love_count = love_count + 1 WHERE id = ?", id);
+
+                // 增加点赞通知
+                Post post = postDao.get(id);
+                if (null != post && !post.isDeleted()){
+                    PostMessage message = new PostMessage();
+                    message.setAuthorUserId(post.getUserId());
+                    message.setPostId(id);
+                    message.setUserId(user.getId());
+                    message.setUserNicker(user.getNicker());
+                    message.setType(CommonAttr.POST_MESSAGE_TYPE.LOVE);
+                    postMessageService.sendMessage(message);
+                }
+
                 return 1;
             }else{
                 // 有赞就取消

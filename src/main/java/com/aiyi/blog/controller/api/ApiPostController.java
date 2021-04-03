@@ -4,12 +4,12 @@ import com.aiyi.blog.dao.TagDao;
 import com.aiyi.blog.entity.Post;
 import com.aiyi.blog.entity.Tag;
 import com.aiyi.blog.entity.User;
+import com.aiyi.blog.service.PostMessageService;
 import com.aiyi.blog.service.PostService;
 import com.aiyi.core.beans.Method;
 import com.aiyi.core.beans.ResultBean;
 import com.aiyi.core.sql.where.C;
 import com.aiyi.core.util.thread.ThreadUtil;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -27,6 +27,9 @@ public class ApiPostController {
 
     @Resource
     private TagDao tagDao;
+
+    @Resource
+    private PostMessageService postMessageService;
 
     /**
      * 发表帖子
@@ -116,5 +119,14 @@ public class ApiPostController {
     @PostMapping("{id}/love")
     public ResultBean love(@PathVariable long id){
         return ResultBean.success().putResponseBody("status", postService.love(id));
+    }
+
+    /**
+     * 未读消息
+     * @return
+     */
+    @GetMapping("message/no-read")
+    public ResultBean noReadMessage(){
+        return ResultBean.success().setResponseBody(postMessageService.noRead());
     }
 }

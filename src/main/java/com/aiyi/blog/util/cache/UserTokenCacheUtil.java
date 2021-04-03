@@ -103,6 +103,10 @@ public class UserTokenCacheUtil {
                 user = userDao.get(dbUserToken.getUserId());
             }
         }
+        if (null != user){
+            CacheUtil.put(Key.as(CommonAttr.CACHE.LOGIN_KEY, token), user, TimeUnit.HOURS, expire);
+            CacheUtil.put(Key.as(CommonAttr.CACHE.USER_ID_TOKEN, String.valueOf(user.getId())), token, TimeUnit.HOURS, expire);
+        }
         return user;
     }
 }
