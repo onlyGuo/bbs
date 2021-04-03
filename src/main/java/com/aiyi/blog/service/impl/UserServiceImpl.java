@@ -78,7 +78,8 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setPassword(MD5.getMd5(user.getPassword()));
-        user.setNicker(user.getPhone());
+        // 默认昵称
+        user.setNicker(user.getPhone().substring(0, 3) + "***" + user.getPhone().substring(8));
         userDao.add(user);
 
         // 失效验证码
