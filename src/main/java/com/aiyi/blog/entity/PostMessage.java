@@ -1,5 +1,6 @@
 package com.aiyi.blog.entity;
 
+import com.aiyi.core.annotation.po.FieldName;
 import com.aiyi.core.annotation.po.ID;
 import com.aiyi.core.annotation.po.TableName;
 
@@ -15,21 +16,31 @@ public class PostMessage {
     /**
      * 帖子ID
      */
+    @FieldName(name = "post_id")
     private long postId;
+
+    /**
+     * 评论ID
+     */
+    @FieldName(name = "comment_id")
+    private long commentId;
 
     /**
      * 帖子作者用户ID
      */
-    private int autherUserId;
+    @FieldName(name = "author_user_id")
+    private int authorUserId;
 
     /**
      * 消息来源用户ID
      */
+    @FieldName(name = "user_id")
     private int userId;
 
     /**
      * 消息来源用户昵称
      */
+    @FieldName(name = "user_nicker")
     private String userNicker;
 
     /**
@@ -63,12 +74,12 @@ public class PostMessage {
         this.postId = postId;
     }
 
-    public int getAutherUserId() {
-        return autherUserId;
+    public int getAuthorUserId() {
+        return authorUserId;
     }
 
-    public void setAutherUserId(int autherUserId) {
-        this.autherUserId = autherUserId;
+    public void setAuthorUserId(int authorUserId) {
+        this.authorUserId = authorUserId;
     }
 
     public int getUserId() {
@@ -85,5 +96,37 @@ public class PostMessage {
 
     public void setUserNicker(String userNicker) {
         this.userNicker = userNicker;
+    }
+
+    public long getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(long commentId) {
+        this.commentId = commentId;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public boolean isRead() {
+        return read;
+    }
+
+    public void setRead(boolean read) {
+        this.read = read;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
