@@ -5,7 +5,8 @@ public class MapUtils {
     private static double EARTH_RADIUS = 6371.393;
     private static double rad(double d)
     {
-        return d * Math.PI / 180.0;
+        double d1 = d * Math.PI;
+        return d1 / 180.0;
     }
 
     /**
@@ -26,6 +27,9 @@ public class MapUtils {
                 Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
         s = s * EARTH_RADIUS;
         s = Math.round(s * 1000);
+        if (s == 0){
+            s = -1;
+        }
         return s;
     }
 
