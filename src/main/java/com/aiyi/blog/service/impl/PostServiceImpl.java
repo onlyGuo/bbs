@@ -132,6 +132,7 @@ public class PostServiceImpl implements PostService {
                     message.setUserId(user.getId());
                     message.setUserNicker(user.getNicker());
                     message.setType(CommonAttr.POST_MESSAGE_TYPE.LOVE);
+                    message.setUserHeaderImg(user.getHeadImg());
                     postMessageService.sendMessage(message);
                     Key key = Key.as(CommonAttr.CACHE.POST_NOREAD_MESSAGE, "" + userId);
                     PostNoReadMessage cacheMessage = CacheUtil.get(key, PostNoReadMessage.class);

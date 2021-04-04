@@ -47,6 +47,12 @@ public class PostMessage extends PO {
     private String userNicker;
 
     /**
+     * 消息来源用户头像
+     */
+    @FieldName(name = "user_header_img")
+    private String userHeaderImg;
+
+    /**
      * 0 = 艾特， 1 = 评论， 2 = 点赞
      */
     private int type;
@@ -146,5 +152,13 @@ public class PostMessage extends PO {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getUserHeaderImg() {
+        return userHeaderImg;
+    }
+
+    public void setUserHeaderImg(String userHeaderImg) {
+        this.userHeaderImg = userHeaderImg;
     }
 }
