@@ -61,4 +61,12 @@ public interface PostService {
      *      0 = 已取消， 1 = 已点赞
      */
     int love(long id);
+
+    /**
+     * 帖子详情
+     * @param id
+     *      帖子ID
+     * @return
+     */
+    Post info(long id, double lon, double lat);
 }

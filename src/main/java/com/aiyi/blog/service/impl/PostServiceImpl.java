@@ -152,4 +152,16 @@ public class PostServiceImpl implements PostService {
             }
         });
     }
+
+    @Override
+    public Post info(long id, double lon, double lat) {
+        Post post = postDao.get(id);
+        if (lon > 0 && lat > 0){
+            // 计算距离
+            if (post.getLat() > 0 && post.getLon() > 0){
+                post.setDistance(MapUtils.GetDistance(lat, lon, post.getLat(), post.getLon()));
+            }
+        }
+        return post;
+    }
 }

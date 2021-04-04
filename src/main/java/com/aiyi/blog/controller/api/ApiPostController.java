@@ -99,6 +99,17 @@ public class ApiPostController {
     }
 
     /**
+     * 帖子详情
+     * @param id
+     *      帖子ID
+     * @return
+     */
+    @GetMapping("info/{id}")
+    public ResultBean info(@PathVariable long id, double lon, double lat){
+        return ResultBean.success().setResponseBody(postService.info(id, lon, lat));
+    }
+
+    /**
      * 删除我自己的一个帖子
      * @param post
      *      要删除的帖子信息
