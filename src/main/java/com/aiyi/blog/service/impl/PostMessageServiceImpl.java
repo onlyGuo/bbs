@@ -73,6 +73,7 @@ public class PostMessageServiceImpl implements PostMessageService {
     @Override
     public ResultPage<PostMessage> list(int type, int page, int pageSize) {
         return postMessageDao.list(Method.where(PostMessage::getType, C.EQ, type)
+                .and(PostMessage::getAuthorUserId, C.EQ, ThreadUtil.getUserId())
                 .orderBy(Sort.of(PostMessage::getId, OrderBy.DESC)), page, pageSize);
     }
 }
