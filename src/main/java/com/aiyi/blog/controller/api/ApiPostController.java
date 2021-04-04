@@ -129,4 +129,30 @@ public class ApiPostController {
     public ResultBean noReadMessage(){
         return ResultBean.success().setResponseBody(postMessageService.noRead());
     }
+
+    /**
+     * 列出消息列表
+     * @param type
+     *      类型
+     * @param page
+     *      页码
+     * @param pageSize
+     *      每页条数
+     * @return
+     */
+    @GetMapping("message/{type}")
+    public ResultBean messageList(@PathVariable int type, int page, int pageSize){
+        return ResultBean.success().setResponseBody(postMessageService.list(type, page, pageSize));
+    }
+
+    /**
+     * 使某个类型的消息全部设置为已读
+     * @param type
+     *      消息类型
+     * @return
+     */
+    @PostMapping("message/{type}")
+    public ResultBean read(@PathVariable int type){
+        return ResultBean.success().setResponseBody(postMessageService.readAll(type));
+    }
 }

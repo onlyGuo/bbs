@@ -5,6 +5,8 @@ import com.aiyi.core.annotation.po.ID;
 import com.aiyi.core.annotation.po.TableName;
 import com.aiyi.core.beans.PO;
 
+import java.util.Date;
+
 /**
  * 帖子相关消息通知表
  */
@@ -53,12 +55,18 @@ public class PostMessage extends PO {
      * 作者是否已读
      */
     @FieldName(name = "`read`")
-    private boolean read;
+    private boolean hasRead;
 
     /**
      * 评论内容
      */
     private String content;
+
+    /**
+     * 创建时间
+     */
+    @FieldName(name = "create_time")
+    private Date createTime = new Date();
 
     public long getId() {
         return id;
@@ -116,12 +124,12 @@ public class PostMessage extends PO {
         this.type = type;
     }
 
-    public boolean isRead() {
-        return read;
+    public boolean isHasRead() {
+        return hasRead;
     }
 
-    public void setRead(boolean read) {
-        this.read = read;
+    public void setHasRead(boolean hasRead) {
+        this.hasRead = hasRead;
     }
 
     public String getContent() {
@@ -130,5 +138,13 @@ public class PostMessage extends PO {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }
