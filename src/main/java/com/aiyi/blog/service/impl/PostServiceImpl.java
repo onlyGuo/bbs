@@ -164,4 +164,13 @@ public class PostServiceImpl implements PostService {
         }
         return post;
     }
+
+    @Override
+    public PostNoReadMessage comment(PostMessage message) {
+        PostNoReadMessage message1 = postMessageService.sendMessage(message);
+        Post post = postDao.get(message.getPostId());
+        post.setCommentCount(post.getCommentCount() + 1);
+        postDao.update(post);
+        return message1;
+    }
 }

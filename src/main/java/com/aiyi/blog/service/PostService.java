@@ -1,6 +1,8 @@
 package com.aiyi.blog.service;
 
 import com.aiyi.blog.entity.Post;
+import com.aiyi.blog.entity.PostMessage;
+import com.aiyi.blog.entity.dto.PostNoReadMessage;
 import com.aiyi.core.beans.ResultPage;
 
 import java.util.List;
@@ -69,4 +71,12 @@ public interface PostService {
      * @return
      */
     Post info(long id, double lon, double lat);
+
+    /**
+     * 发表评论
+     * @param message
+     *      评论信息
+     * @return
+     */
+    PostNoReadMessage comment(PostMessage message);
 }

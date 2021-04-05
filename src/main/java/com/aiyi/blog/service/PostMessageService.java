@@ -11,7 +11,7 @@ public interface PostMessageService {
      * @param message
      *      消息本体
      */
-    void sendMessage(PostMessage message);
+    PostNoReadMessage sendMessage(PostMessage message);
 
     /**
      * 使某个类型的消息全部已读

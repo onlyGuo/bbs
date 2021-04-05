@@ -1,9 +1,12 @@
 package com.aiyi.blog.controller.api;
 
+import com.aiyi.blog.conf.CommonAttr;
 import com.aiyi.blog.dao.TagDao;
 import com.aiyi.blog.entity.Post;
+import com.aiyi.blog.entity.PostMessage;
 import com.aiyi.blog.entity.Tag;
 import com.aiyi.blog.entity.User;
+import com.aiyi.blog.entity.dto.PostNoReadMessage;
 import com.aiyi.blog.service.PostMessageService;
 import com.aiyi.blog.service.PostService;
 import com.aiyi.core.beans.Method;
@@ -166,4 +169,17 @@ public class ApiPostController {
     public ResultBean read(@PathVariable int type){
         return ResultBean.success().setResponseBody(postMessageService.readAll(type));
     }
+
+    /**
+     * 发布评论
+     * @param message
+     *      评论
+     * @return
+     */
+    @PostMapping("comment")
+    public ResultBean postComment(@RequestBody PostMessage message){
+        message.setType(CommonAttr.POST_MESSAGE_TYPE.COMMENT);
+        return ResultBean.success().setResponseBody(postService.comment(message));
+    }
+
 }

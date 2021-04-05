@@ -1,8 +1,10 @@
 package com.aiyi.blog.service.impl;
 
 import com.aiyi.blog.conf.CommonAttr;
+import com.aiyi.blog.dao.PostDao;
 import com.aiyi.blog.dao.PostMessageDao;
 import com.aiyi.blog.entity.PostMessage;
+import com.aiyi.blog.entity.User;
 import com.aiyi.blog.entity.dto.PostNoReadMessage;
 import com.aiyi.blog.service.PostMessageService;
 import com.aiyi.blog.util.cache.CacheUtil;
@@ -27,9 +29,17 @@ public class PostMessageServiceImpl implements PostMessageService {
     @Resource
     private PostMessageDao postMessageDao;
 
+    @Resource
+    private PostDao postDao;
+
     @Override
-    public void sendMessage(PostMessage message) {
+    public PostNoReadMessage sendMessage(PostMessage message) {
+        User user = ThreadUtil.getUserEntity();
+        message.setUserNicker(user.getNicker());
+        message.setUserId(user.getId());
+        message.setUserHeaderImg(user.getHeadImg());
         postMessageDao.add(message);
+        return getNoReadInDb();
     }
 
     @Override
