@@ -182,4 +182,19 @@ public class ApiPostController {
         return ResultBean.success().setResponseBody(postService.comment(message));
     }
 
+    /**
+     * 帖子评论列表
+     * @param postId
+     *      帖子ID
+     * @param page
+     *      页码
+     * @param pageSize
+     *      每页条数
+     * @return
+     */
+    @GetMapping("{postId}/comment")
+    public ResultBean listComment(@PathVariable long postId, int page, int pageSize){
+        return ResultBean.success().setResponseBody(postService.listComment(postId, page, pageSize));
+    }
+
 }

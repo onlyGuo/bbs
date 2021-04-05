@@ -35,18 +35,21 @@ public class PostMessageServiceImpl implements PostMessageService {
     @Override
     public PostNoReadMessage sendMessage(PostMessage message) {
         User user = ThreadUtil.getUserEntity();
-        message.setUserNicker(user.getNicker());
-        message.setUserId(user.getId());
-        message.setUserHeaderImg(user.getHeadImg());
+        if (null != user){
+            message.setUserNicker(user.getNicker());
+            message.setUserId(user.getId());
+            message.setUserHeaderImg(user.getHeadImg());
+        }
         postMessageDao.add(message);
-        return getNoReadInDb();
+        return getNoReadInDb(message.getUserId() + "");
     }
 
     @Override
     public PostNoReadMessage readAll(int type) {
         postMessageDao.execute("UPDATE " + postMessageDao.tableName()
-                + " SET `read` = true WHERE author_user_id = ? AND `read` = false", ThreadUtil.getUserId());
-        return getNoReadInDb();
+                + " SET `read` = true WHERE author_user_id = ? AND type = ? AND `read` = false",
+                ThreadUtil.getUserId(), type);
+        return getNoReadInDb(ThreadUtil.getUserId().toString());
     }
 
     @Override
@@ -56,11 +59,11 @@ public class PostMessageServiceImpl implements PostMessageService {
         if (null != cacheMessage){
             return cacheMessage;
         }
-        return getNoReadInDb();
+        return getNoReadInDb(ThreadUtil.getUserId().toString());
     }
 
 
-    private PostNoReadMessage getNoReadInDb(){
+    private PostNoReadMessage getNoReadInDb(String userId){
         PostNoReadMessage message = new PostNoReadMessage();
         long at = postMessageDao.count(Method.where(PostMessage::getAuthorUserId, C.EQ, ThreadUtil.getUserId())
                 .and(PostMessage::getType, C.EQ, CommonAttr.POST_MESSAGE_TYPE.AT)
@@ -75,7 +78,7 @@ public class PostMessageServiceImpl implements PostMessageService {
         message.setAt((int) at);
         message.setComment((int) comment);
         message.setLove((int) love);
-        Key key = Key.as(CommonAttr.CACHE.POST_NOREAD_MESSAGE, ThreadUtil.getUserId().toString());
+        Key key = Key.as(CommonAttr.CACHE.POST_NOREAD_MESSAGE, userId);
         CacheUtil.put(key, message, TimeUnit.HOURS, 1);
         return message;
     }

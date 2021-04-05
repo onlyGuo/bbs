@@ -79,4 +79,16 @@ public interface PostService {
      * @return
      */
     PostNoReadMessage comment(PostMessage message);
+
+    /**
+     * 列出帖子评论列表
+     * @param postId
+     *      帖子ID
+     * @param page
+     *      页码
+     * @param pageSize
+     *      每页条数
+     * @return
+     */
+    ResultPage<PostMessage> listComment(long postId, int page, int pageSize);
 }

@@ -1,8 +1,10 @@
 package com.aiyi.blog.entity;
 
+import com.aiyi.blog.util.DateStrUtil;
 import com.aiyi.core.annotation.po.FieldName;
 import com.aiyi.core.annotation.po.ID;
 import com.aiyi.core.annotation.po.TableName;
+import com.aiyi.core.annotation.po.TempField;
 import com.aiyi.core.beans.PO;
 
 import java.util.Date;
@@ -73,6 +75,9 @@ public class PostMessage extends PO {
      */
     @FieldName(name = "create_time")
     private Date createTime = new Date();
+
+    @TempField
+    private String strDataLength;
 
     public long getId() {
         return id;
@@ -160,5 +165,16 @@ public class PostMessage extends PO {
 
     public void setUserHeaderImg(String userHeaderImg) {
         this.userHeaderImg = userHeaderImg;
+    }
+
+    public String getStrDataLength() {
+        if (null == strDataLength){
+            strDataLength = DateStrUtil.strLength(createTime);
+        }
+        return strDataLength;
+    }
+
+    public void setStrDataLength(String strDataLength) {
+        this.strDataLength = strDataLength;
     }
 }

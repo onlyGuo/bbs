@@ -3,6 +3,7 @@ package com.aiyi.blog.service.impl;
 import com.aiyi.blog.conf.CommonAttr;
 import com.aiyi.blog.dao.PostDao;
 import com.aiyi.blog.dao.PostLoveDao;
+import com.aiyi.blog.dao.PostMessageDao;
 import com.aiyi.blog.entity.Post;
 import com.aiyi.blog.entity.PostLove;
 import com.aiyi.blog.entity.PostMessage;
@@ -40,6 +41,9 @@ public class PostServiceImpl implements PostService {
 
     @Resource
     private PostMessageService postMessageService;
+
+    @Resource
+    private PostMessageDao postMessageDao;
 
     @Override
     public Post post(Post post) {
@@ -172,5 +176,11 @@ public class PostServiceImpl implements PostService {
         post.setCommentCount(post.getCommentCount() + 1);
         postDao.update(post);
         return message1;
+    }
+
+    @Override
+    public ResultPage<PostMessage> listComment(long postId, int page, int pageSize) {
+        return postMessageDao.list(Method.where(PostMessage::getPostId, C.EQ, postId)
+                .orderBy(Sort.of(PostMessage::getId, OrderBy.DESC)), page, pageSize);
     }
 }
