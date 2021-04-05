@@ -1,9 +1,14 @@
 package com.aiyi.blog.service.impl;
 
 import com.aiyi.blog.conf.CommonAttr;
+import com.aiyi.blog.dao.PostDao;
+import com.aiyi.blog.dao.PostMessageDao;
 import com.aiyi.blog.dao.UserDao;
+import com.aiyi.blog.entity.Post;
+import com.aiyi.blog.entity.PostMessage;
 import com.aiyi.blog.entity.User;
 import com.aiyi.blog.entity.UserToken;
+import com.aiyi.blog.entity.dto.UserStatistics;
 import com.aiyi.blog.service.UserService;
 import com.aiyi.blog.util.cache.CacheUtil;
 import com.aiyi.blog.util.cache.Key;
@@ -32,6 +37,12 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private UserDao userDao;
+
+    @Resource
+    private PostDao postDao;
+
+    @Resource
+    private PostMessageDao postMessageDao;
 
     @Override
     public String login(User user) {
@@ -106,6 +117,17 @@ public class UserServiceImpl implements UserService {
         }
         userDao.update(my);
         UserTokenCacheUtil.updateCacheUser(my);
+    }
+
+    @Override
+    public UserStatistics Statistics(int userId) {
+        long postCount = postDao.count(Method.where(Post::getUserId, C.EQ, userId));
+        long loveCount = postMessageDao.count(Method.where(PostMessage::getAuthorUserId, C.EQ, userId)
+                .and(PostMessage::getType, C.EQ, CommonAttr.POST_MESSAGE_TYPE.LOVE));
+        UserStatistics statistics = new UserStatistics();
+        statistics.setLoveCount((int)loveCount);
+        statistics.setPostCount((int)postCount);
+        return statistics;
     }
 
 

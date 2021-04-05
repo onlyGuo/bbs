@@ -1,6 +1,7 @@
 package com.aiyi.blog.service;
 
 import com.aiyi.blog.entity.User;
+import com.aiyi.blog.entity.dto.UserStatistics;
 
 /**
  * @Author: 郭胜凯
@@ -51,4 +52,12 @@ public interface UserService {
      * @param user
      */
     void updateMyInfo(User user);
+
+    /**
+     * 获取用户的统计信息
+     * @param userId
+     *      用户ID
+     * @return
+     */
+    UserStatistics Statistics(int userId);
 }

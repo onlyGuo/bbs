@@ -101,4 +101,13 @@ public class ApiUserController {
         return ResultBean.success().setResponseBody(ThreadUtil.getUserEntity());
     }
 
+    /**
+     * 我的统计信息
+     * @return
+     */
+    @GetMapping("statistics")
+    public ResultBean statistics(){
+        return ResultBean.success().setResponseBody(userService.Statistics(Integer
+                .parseInt(ThreadUtil.getUserId().toString())));
+    }
 }
