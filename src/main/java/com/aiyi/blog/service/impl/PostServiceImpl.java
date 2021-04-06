@@ -181,6 +181,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public ResultPage<PostMessage> listComment(long postId, int page, int pageSize) {
         return postMessageDao.list(Method.where(PostMessage::getPostId, C.EQ, postId)
+                .and(PostMessage::getType, C.EQ, CommonAttr.POST_MESSAGE_TYPE.COMMENT)
                 .orderBy(Sort.of(PostMessage::getId, OrderBy.DESC)), page, pageSize);
     }
 }
