@@ -101,6 +101,8 @@ public class UserServiceImpl implements UserService {
     public void updateMyPassword(String newPassowrd) {
         User user = ThreadUtil.getUserEntity();
         user.setPassword(MD5.getMd5(newPassowrd));
+        userDao.update(user);
+        UserTokenCacheUtil.clear(user.getId());
     }
 
     @Override
